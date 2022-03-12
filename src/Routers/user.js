@@ -21,19 +21,14 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
-        res.send({ success, user, token })
+        res.send({ user, token })
     } catch (e) {
         res.status(401).send({ success : false})
     }
 })
 
-router.get('/users', auth, async (req, res) => {
-    try {
-        const users = await User.find({})
-        res.send(users)
-    } catch (e) {
-        res.status(500).send()
-    }
+router.get('/users/me', auth, async (req, res) => {
+    res.status(202).send(req.user)
 })
 
 router.get('/users/:id', async (req, res) => {
