@@ -5,7 +5,7 @@ import 'dotenv/config'
 const auth = async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ','')
-        const decoded =jwt.verify(token,process.env.SECRET)
+        const decoded = jwt.verify(token,process.env.SECRET)
         const user = await User.findOne({_id: decoded, 'tokens.token' : token})
 
         if(!user){
